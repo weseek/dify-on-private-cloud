@@ -1,3 +1,0 @@
-services:
-  node:
-    image: mcr.microsoft.com/devcontainers/base:ubuntu

@@ -2,7 +2,7 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
 {
   "name": "Dify-Testbed-Dev",
-  "dockerComposeFile": "compose.yml",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 
   "features": {
     "ghcr.io/devcontainers/features/terraform:1": {
@@ -21,7 +21,8 @@
       "extensions": [
         "mhutchie.git-graph",
         "eamodio.gitlens",
-        "editorconfig.editorconfig"
+        "editorconfig.editorconfig",
+        "hashicorp.terraform",
       ],
     }
   },
