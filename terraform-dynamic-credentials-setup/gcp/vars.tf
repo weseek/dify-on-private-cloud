@@ -30,6 +30,12 @@ variable "tfc_workspace_name" {
   description = "The name of the workspace that you'd like to create and connect to GCP"
 }
 
+variable "tfc_working_directory" {
+  type        = string
+  default     = ""
+  description = "The working directory for the workspace"
+}
+
 variable "gcp_project_id" {
   type        = string
   description = "The ID for your GCP project"

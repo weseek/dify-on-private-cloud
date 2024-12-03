@@ -21,6 +21,12 @@ resource "tfe_workspace" "my_workspace" {
   name         = var.tfc_workspace_name
   organization = var.tfc_organization_name
   project_id   = data.tfe_project.tfc_project.id
+  working_directory = var.tfc_working_directory
+  lifecycle {
+    ignore_changes = [
+      vcs_repo,
+    ]
+  }
 }
 
 # The following variables must be set to allow runs
