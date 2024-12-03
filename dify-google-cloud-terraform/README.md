@@ -45,11 +45,11 @@ This repository allows you to automatically set up Google Cloud resources using 
 4. Build & push container images:
     ```sh
     cd ../../..
-    sh ./docker/cloudbuild.sh <your-project-id> <your-region>
+    bash ./docker/cloudbuild.sh <your-project-id> <your-region>
     ```
     You can also specify a version of the dify-api image.
     ```sh
-    sh ./docker/cloudbuild.sh <your-project-id> <your-region> <dify-api-version>
+    bash ./docker/cloudbuild.sh <your-project-id> <your-region> <dify-api-version>
     ```
     If no version is specified, the latest version is used by default.
 
