@@ -1,3 +1,28 @@
-# Terraform Dynamic Credentials Setup Examples
+# Terraform Dynamic Credentials Setup
 
-Just-in-time authentication is powerful, but the initial setup can be intimidating. This repo contains a collection of example Terraform code for bootstrapping trust between cloud platforms and Terraform Cloud.
+## 参考
+https://zenn.dev/google_cloud_jp/articles/e14caa5589f67e
+
+## 準備
+
+### Google Cloud
+
+```bash
+gcloud init --no-launch-browser
+gcloud auth application-default login
+```
+
+
+### Terraform Cloud
+
+```bash
+terraform login
+```
+
+## Run
+
+```bash
+cd gcp
+terraform plan
+terraform apply
+```
