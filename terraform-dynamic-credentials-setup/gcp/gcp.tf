@@ -91,6 +91,16 @@ resource "google_service_account_iam_member" "tfc_service_account_member" {
 # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam
 resource "google_project_iam_member" "tfc_project_member" {
   project = var.gcp_project_id
-  role    = "roles/editor"
   member  = "serviceAccount:${google_service_account.tfc_service_account.email}"
+
+  role = each.key
+
+  for_each = toset([
+    "roles/editor",
+    "roles/iam.roleAdmin",
+    "roles/resourcemanager.projectIamAdmin",
+    "roles/run.admin",
+    "roles/compute.networkAdmin",
+    "roles/servicemanagement.admin"
+  ])
 }
