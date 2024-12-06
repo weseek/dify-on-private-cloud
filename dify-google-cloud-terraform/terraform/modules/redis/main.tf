@@ -1,6 +1,6 @@
 resource "google_redis_instance" "dify_redis" {
   name              = "dify-redis"
-  tier              = "STANDARD_HA"
+  tier              = "BASIC"
   memory_size_gb    = 1
   region            = var.region
   project           = var.project_id
@@ -8,6 +8,10 @@ resource "google_redis_instance" "dify_redis" {
   reserved_ip_range = "10.0.1.0/29"
 
   authorized_network = var.vpc_network_name
+
+  // disable read replicas in development
+  read_replicas_mode = "READ_REPLICAS_DISABLED"
+  replica_count      = 0
 }
 
 output "redis_host" {
