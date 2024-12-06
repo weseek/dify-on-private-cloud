@@ -23,7 +23,7 @@ resource "google_sql_database_instance" "postgres_instance" {
   region           = var.region
 
   settings {
-    activation_policy = "ALWAYS"
+    activation_policy = "NEVER"
     availability_type = "ZONAL"
 
     backup_configuration {
@@ -34,7 +34,7 @@ resource "google_sql_database_instance" "postgres_instance" {
 
       enabled                        = true
       location                       = "asia"
-      point_in_time_recovery_enabled = true
+      point_in_time_recovery_enabled = false
       start_time                     = "21:00"
       transaction_log_retention_days = 7
     }
