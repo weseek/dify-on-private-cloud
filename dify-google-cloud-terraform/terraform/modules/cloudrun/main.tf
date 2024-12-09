@@ -42,8 +42,8 @@ resource "google_cloud_run_v2_service" "dify_service" {
       resources {
         cpu_idle = true
         limits = {
-          cpu    = "1"
-          memory = "4Gi"
+          cpu    = "0.1"
+          memory = "128Mi"
         }
       }
       ports {
@@ -66,8 +66,8 @@ resource "google_cloud_run_v2_service" "dify_service" {
       resources {
         cpu_idle = true
         limits = {
-          cpu    = "1"
-          memory = "4Gi"
+          cpu    = "0.25"
+          memory = "512Mi"
         }
       }
       env {
@@ -221,8 +221,8 @@ resource "google_cloud_run_v2_service" "dify_service" {
       resources {
         cpu_idle = true
         limits = {
-          cpu    = "1"
-          memory = "4Gi"
+          cpu    = "0.1"
+          memory = "256Mi"
         }
       }
       env {
@@ -268,8 +268,8 @@ resource "google_cloud_run_v2_service" "dify_worker" {
       resources {
         cpu_idle = true
         limits = {
-          cpu    = "1"
-          memory = "4Gi"
+          cpu    = "0.25"
+          memory = "512Mi"
         }
       }
       env {
@@ -437,8 +437,8 @@ resource "google_cloud_run_v2_service" "dify_sandbox" {
       resources {
         cpu_idle = true
         limits = {
-          cpu    = "1"
-          memory = "4Gi"
+          cpu    = "0.5"
+          memory = "1Gi"
         }
       }
       ports {

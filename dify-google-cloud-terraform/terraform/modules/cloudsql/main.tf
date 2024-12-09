@@ -26,18 +26,18 @@ resource "google_sql_database_instance" "postgres_instance" {
     activation_policy = "NEVER"
     availability_type = "ZONAL"
 
-    backup_configuration {
-      backup_retention_settings {
-        retained_backups = 7
-        retention_unit   = "COUNT"
-      }
+    # backup_configuration {
+    #   backup_retention_settings {
+    #     retained_backups = 7
+    #     retention_unit   = "COUNT"
+    #   }
 
-      enabled                        = true
-      location                       = "asia"
-      point_in_time_recovery_enabled = false
-      start_time                     = "21:00"
-      transaction_log_retention_days = 7
-    }
+    #   enabled                        = true
+    #   location                       = "asia"
+    #   point_in_time_recovery_enabled = false
+    #   start_time                     = "21:00"
+    #   transaction_log_retention_days = 7
+    # }
 
     disk_autoresize       = true
     disk_autoresize_limit = 0
@@ -59,7 +59,7 @@ resource "google_sql_database_instance" "postgres_instance" {
     }
 
     pricing_plan = "PER_USE"
-    tier         = "db-custom-2-8192"
+    tier         = "db-g1-small"
   }
 }
 
