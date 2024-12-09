@@ -36,13 +36,14 @@ resource "google_cloud_run_v2_service" "dify_service" {
   ingress  = var.cloud_run_ingress
   template {
     service_account = google_service_account.dify_service_account.email
+    max_instance_request_concurrency = 1 // avoid 'Total cpu < 1 is not supported with concurrency > 1.'
     containers {
       name  = "nginx"
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.nginx_repository_id}/dify-nginx:latest"
       resources {
         cpu_idle = true
         limits = {
-          cpu    = "0.1"
+          cpu    = "0.25"
           memory = "128Mi"
         }
       }
@@ -66,8 +67,8 @@ resource "google_cloud_run_v2_service" "dify_service" {
       resources {
         cpu_idle = true
         limits = {
-          cpu    = "0.25"
-          memory = "512Mi"
+          cpu    = "1"
+          memory = "1Gi"
         }
       }
       env {
@@ -221,7 +222,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
       resources {
         cpu_idle = true
         limits = {
-          cpu    = "0.1"
+          cpu    = "0.25"
           memory = "256Mi"
         }
       }
@@ -252,7 +253,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
     }
     scaling {
       min_instance_count = 1
-      max_instance_count = 5
+      max_instance_count = 3
     }
   }
 }
@@ -262,14 +263,15 @@ resource "google_cloud_run_v2_service" "dify_worker" {
   location = var.region
 
   template {
+    max_instance_request_concurrency = 1 // avoid 'Total cpu < 1 is not supported with concurrency > 1.'
     containers {
       name  = "dify-worker"
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.api_repository_id}/dify-api:${var.dify_version}"
       resources {
         cpu_idle = true
         limits = {
-          cpu    = "0.25"
-          memory = "512Mi"
+          cpu    = "0.5"
+          memory = "1Gi"
         }
       }
       env {
@@ -421,7 +423,7 @@ resource "google_cloud_run_v2_service" "dify_worker" {
     }
     scaling {
       min_instance_count = 1
-      max_instance_count = 5
+      max_instance_count = 3
     }
   }
 }
@@ -437,7 +439,7 @@ resource "google_cloud_run_v2_service" "dify_sandbox" {
       resources {
         cpu_idle = true
         limits = {
-          cpu    = "0.5"
+          cpu    = "1"
           memory = "1Gi"
         }
       }
