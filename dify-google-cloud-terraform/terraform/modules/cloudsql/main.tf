@@ -23,7 +23,7 @@ resource "google_sql_database_instance" "postgres_instance" {
   region           = var.region
 
   settings {
-    activation_policy = "NEVER"
+    activation_policy = "ALWAYS"
     availability_type = "ZONAL"
 
     backup_configuration {
