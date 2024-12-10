@@ -65,9 +65,10 @@ resource "google_cloud_run_v2_service" "dify_service" {
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.api_repository_id}/dify-api:${var.dify_version}"
       resources {
         cpu_idle = true
+        startup_cpu_boost = true // reduce cold-start latency
         limits = {
           cpu    = "1"
-          memory = "1Gi"
+          memory = "2Gi"
         }
       }
       env {
@@ -220,6 +221,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.web_repository_id}/langgenius/dify-web:${var.dify_version}"
       resources {
         cpu_idle = true
+        startup_cpu_boost = true // reduce cold-start latency
         limits = {
           cpu    = "1"
           memory = "256Mi"
@@ -251,7 +253,7 @@ resource "google_cloud_run_v2_service" "dify_service" {
       egress    = "ALL_TRAFFIC"
     }
     scaling {
-      min_instance_count = 1
+      min_instance_count = 0
       max_instance_count = 3
     }
   }
@@ -267,6 +269,7 @@ resource "google_cloud_run_v2_service" "dify_worker" {
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.api_repository_id}/dify-api:${var.dify_version}"
       resources {
         cpu_idle = true
+        startup_cpu_boost = true // reduce cold-start latency
         limits = {
           cpu    = "1"
           memory = "2Gi"
@@ -420,7 +423,7 @@ resource "google_cloud_run_v2_service" "dify_worker" {
       egress    = "ALL_TRAFFIC"
     }
     scaling {
-      min_instance_count = 1
+      min_instance_count = 0
       max_instance_count = 3
     }
   }
@@ -436,6 +439,7 @@ resource "google_cloud_run_v2_service" "dify_sandbox" {
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.sandbox_repository_id}/langgenius/dify-sandbox:${var.dify_sandbox_version}"
       resources {
         cpu_idle = true
+        startup_cpu_boost = true // reduce cold-start latency
         limits = {
           cpu    = "1"
           memory = "2Gi"
@@ -469,6 +473,10 @@ resource "google_cloud_run_v2_service" "dify_sandbox" {
     vpc_access {
       connector = "projects/${var.project_id}/locations/${var.region}/connectors/${google_vpc_access_connector.connector.name}"
       egress    = "ALL_TRAFFIC"
+    }
+    scaling {
+      min_instance_count = 0
+      max_instance_count = 3
     }
   }
 }
