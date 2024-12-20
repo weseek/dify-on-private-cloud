@@ -1,9 +1,9 @@
 # Terraform Dynamic Credentials Setup
 
-## 参考
+## Reference
 https://zenn.dev/google_cloud_jp/articles/e14caa5589f67e
 
-## 準備
+## Prepare
 
 ### Google Cloud
 
