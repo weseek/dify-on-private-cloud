@@ -42,11 +42,73 @@
    - 安全的凭证管理
    - 状态管理自动化
 
-## 前提条件
+## 快速入门指南
 
-请参考各组件文档：
-- [Google Cloud 设置要求](./dify-google-cloud-terraform/README.md#prerequisites)
-- [Terraform Cloud 设置要求](./terraform-dynamic-credentials-setup/README.md#prepare)（可选）
+### 方法一：不使用 Terraform Cloud
+
+1. 克隆此仓库并执行初始设置：
+   ```bash
+   # 初始化并登录 gcloud
+   gcloud init --no-launch-browser
+   gcloud auth application-default login
+   
+   # 创建用于状态管理的 GCS 存储桶
+   gsutil mb gs://your-tfstate-bucket
+   ```
+
+2. 在 `dify-google-cloud-terraform/terraform/environments/dev/provider.tf` 中指定状态管理存储桶：
+   ```hcl
+   backend "gcs" {
+     bucket = "your-tfstate-bucket" # 替换为您的存储桶名称
+     prefix = "dify"
+   }
+   ```
+
+3. 编辑 `dify-google-cloud-terraform/terraform/environments/dev/terraform.tfvars` 中的必要配置值
+
+4. 按照 dify-google-cloud-terraform 的[入门指南](./dify-google-cloud-terraform/README.md#getting-started)中的步骤 2-6 进行操作
+
+### 方法二：使用 Terraform Cloud
+
+1. 前提条件
+   - 创建 Google Cloud 项目
+   - 在 Terraform Cloud 中创建组织、项目和工作空间
+
+2. 克隆此仓库并编辑配置文件
+   ```bash
+   # Dify 部署配置
+   vim dify-google-cloud-terraform/terraform/environments/dev/terraform.tfvars
+   
+   # Terraform Cloud 认证配置
+   vim terraform-dynamic-credentials-setup/gcp/terraform.tfvars
+   ```
+
+3. 提交更改并推送到仓库
+
+4. 在 Terraform Cloud 中配置工作空间
+   - 选择版本控制工作流程
+   - 连接到 VCS 并指定克隆的仓库
+   - 将工作目录设置为 `dify-google-cloud-terraform/terraform/environments/dev`
+
+5. 在 Google Cloud Shell 中克隆仓库并设置认证
+   ```bash
+   git clone <您的仓库URL>
+   cd <仓库名称>/terraform-dynamic-credentials-setup
+   
+   # 连接到 Terraform Cloud
+   terraform login
+   
+   # 配置 Workload Identity Federation
+   cd gcp
+   terraform plan
+   terraform apply
+   ```
+
+6. 在 Terraform Cloud 中执行运行
+   - 确认 Plan 自动执行
+   - 批准 Apply
+
+有关详细设置说明，请参阅 [terraform-dynamic-credentials-setup](./terraform-dynamic-credentials-setup/README.md)。
 
 ## 支持的平台
 

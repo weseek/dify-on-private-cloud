@@ -138,11 +138,73 @@ This repository contains the following components:
    - Secure credential management
    - State management automation
 
-## Prerequisites
+## Quick Start Guide
 
-Please refer to the individual component documentation:
-- [Google Cloud Setup Requirements](./dify-google-cloud-terraform/README.md#prerequisites)
-    - (Optional) [Terraform Cloud Setup Requirements](./terraform-dynamic-credentials-setup/README.md#prepare)
+### Method 1: Without Terraform Cloud
+
+1. Clone this repository and perform initial setup:
+   ```bash
+   # Initialize and login to gcloud
+   gcloud init --no-launch-browser
+   gcloud auth application-default login
+   
+   # Create GCS bucket for state management
+   gsutil mb gs://your-tfstate-bucket
+   ```
+
+2. Specify state management bucket in `dify-google-cloud-terraform/terraform/environments/dev/provider.tf`:
+   ```hcl
+   backend "gcs" {
+     bucket = "your-tfstate-bucket" # Replace with your bucket name
+     prefix = "dify"
+   }
+   ```
+
+3. Edit required configuration values in `dify-google-cloud-terraform/terraform/environments/dev/terraform.tfvars`
+
+4. Follow steps 2-6 in dify-google-cloud-terraform's [Getting Started](./dify-google-cloud-terraform/README.md#getting-started)
+
+### Method 2: With Terraform Cloud
+
+1. Prerequisites
+   - Create Google Cloud Project
+   - Create Organization, Project, and Workspace in Terraform Cloud
+
+2. Clone this repository and edit configuration files
+   ```bash
+   # Configuration for Dify deployment
+   vim dify-google-cloud-terraform/terraform/environments/dev/terraform.tfvars
+   
+   # Configuration for Terraform Cloud authentication
+   vim terraform-dynamic-credentials-setup/gcp/terraform.tfvars
+   ```
+
+3. Commit changes and push to repository
+
+4. Configure Workspace in Terraform Cloud
+   - Select Version Control Workflow
+   - Connect to VCS and specify cloned repository
+   - Set Working Directory to `dify-google-cloud-terraform/terraform/environments/dev`
+
+5. Clone repository in Google Cloud Shell and set up authentication
+   ```bash
+   git clone <your-repository-url>
+   cd <repository-name>/terraform-dynamic-credentials-setup
+   
+   # Connect to Terraform Cloud
+   terraform login
+   
+   # Configure Workload Identity Federation
+   cd gcp
+   terraform plan
+   terraform apply
+   ```
+
+6. Execute Run in Terraform Cloud
+   - Confirm Plan is automatically executed
+   - Approve Apply
+
+For detailed setup instructions, refer to [terraform-dynamic-credentials-setup](./terraform-dynamic-credentials-setup/README.md).
 
 ## Supported Platforms
 

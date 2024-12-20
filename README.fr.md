@@ -42,11 +42,73 @@ Ce dépôt contient les composants suivants :
    - Gestion sécurisée des identifiants
    - Automatisation de la gestion des états
 
-## Prérequis
+## Guide de Démarrage Rapide
 
-Veuillez consulter la documentation de chaque composant :
-- [Exigences de configuration Google Cloud](./dify-google-cloud-terraform/README.md#prerequisites)
-- [Exigences de configuration Terraform Cloud](./terraform-dynamic-credentials-setup/README.md#prepare) (Optionnel)
+### Méthode 1 : Sans Terraform Cloud
+
+1. Clonez ce dépôt et effectuez la configuration initiale :
+   ```bash
+   # Initialisation et connexion à gcloud
+   gcloud init --no-launch-browser
+   gcloud auth application-default login
+   
+   # Créer un bucket GCS pour la gestion d'état
+   gsutil mb gs://your-tfstate-bucket
+   ```
+
+2. Spécifiez le bucket de gestion d'état dans `dify-google-cloud-terraform/terraform/environments/dev/provider.tf` :
+   ```hcl
+   backend "gcs" {
+     bucket = "your-tfstate-bucket" # Remplacez par votre nom de bucket
+     prefix = "dify"
+   }
+   ```
+
+3. Modifiez les valeurs de configuration requises dans `dify-google-cloud-terraform/terraform/environments/dev/terraform.tfvars`
+
+4. Suivez les étapes 2 à 6 du [Guide de Démarrage](./dify-google-cloud-terraform/README.md#getting-started) de dify-google-cloud-terraform
+
+### Méthode 2 : Avec Terraform Cloud
+
+1. Prérequis
+   - Créer un projet Google Cloud
+   - Créer une Organisation, un Projet et un Workspace dans Terraform Cloud
+
+2. Clonez ce dépôt et modifiez les fichiers de configuration
+   ```bash
+   # Configuration pour le déploiement Dify
+   vim dify-google-cloud-terraform/terraform/environments/dev/terraform.tfvars
+   
+   # Configuration pour l'authentification Terraform Cloud
+   vim terraform-dynamic-credentials-setup/gcp/terraform.tfvars
+   ```
+
+3. Committez les changements et poussez vers le dépôt
+
+4. Configurez le Workspace dans Terraform Cloud
+   - Sélectionnez Version Control Workflow
+   - Connectez-vous au VCS et spécifiez le dépôt cloné
+   - Définissez le Working Directory à `dify-google-cloud-terraform/terraform/environments/dev`
+
+5. Clonez le dépôt dans Google Cloud Shell et configurez l'authentification
+   ```bash
+   git clone <url-de-votre-dépôt>
+   cd <nom-du-dépôt>/terraform-dynamic-credentials-setup
+   
+   # Connexion à Terraform Cloud
+   terraform login
+   
+   # Configuration de Workload Identity Federation
+   cd gcp
+   terraform plan
+   terraform apply
+   ```
+
+6. Exécutez Run dans Terraform Cloud
+   - Confirmez que le Plan s'exécute automatiquement
+   - Approuvez l'Apply
+
+Pour des instructions détaillées, consultez [terraform-dynamic-credentials-setup](./terraform-dynamic-credentials-setup/README.md).
 
 ## Plateformes Supportées
 
