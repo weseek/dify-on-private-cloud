@@ -1,4 +1,4 @@
-project_id                              = "weseek-dify-testbed" # replace with your project id
+project_id                              = "your-dify-project" # replace with your project id
 region                                  = "asia-northeast1"     # replace with your region
 dify_version                            = "latest"
 dify_sandbox_version                    = "latest"
