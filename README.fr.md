@@ -77,6 +77,7 @@ Ce dépôt contient les composants suivants :
 2. Clonez ce dépôt et modifiez les fichiers de configuration
    ```bash
    # Configuration pour le déploiement Dify
+   # Changez uniquement le `project_id`
    vim dify-google-cloud-terraform/terraform/environments/dev/terraform.tfvars
    
    # Configuration pour l'authentification Terraform Cloud

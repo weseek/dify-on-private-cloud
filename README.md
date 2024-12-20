@@ -173,6 +173,7 @@ This repository contains the following components:
 2. Clone this repository and edit configuration files
    ```bash
    # Configuration for Dify deployment
+   # Only change the `project_id`
    vim dify-google-cloud-terraform/terraform/environments/dev/terraform.tfvars
    
    # Configuration for Terraform Cloud authentication

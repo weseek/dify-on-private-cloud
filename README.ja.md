@@ -83,6 +83,7 @@ Infrastructure as Code を使用して、プライベートな Dify プラット
 2. このリポジトリを clone し、以下の設定ファイルを編集
    ```bash
    # Dify デプロイメント用の設定
+   # `project_id` のみ変更
    vim dify-google-cloud-terraform/terraform/environments/dev/terraform.tfvars
    
    # Terraform Cloud 認証用の設定

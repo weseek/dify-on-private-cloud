@@ -77,6 +77,7 @@
 2. 克隆此仓库并编辑配置文件
    ```bash
    # Dify 部署配置
+   # 只需更改 `project_id`
    vim dify-google-cloud-terraform/terraform/environments/dev/terraform.tfvars
    
    # Terraform Cloud 认证配置
